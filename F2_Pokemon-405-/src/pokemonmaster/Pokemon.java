@@ -47,7 +47,7 @@ class Pokemon{
 		System.out.println("Pokemon name: " + name);
  		System.out.print("        Type: ");
 		for(String type: types){
-			System.out.print(type+",");
+			System.out.print(type);
 		}
 		System.out.println();
 		System.out.println("      Weight: " + weight);

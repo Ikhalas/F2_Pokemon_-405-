@@ -6,24 +6,35 @@ import java.io.*;
 
 class CommandPanel{
 	private Farm farm;
+        private Inventory inventory;
+        private Wild wild;
 	private Scanner commandScanner;
 	private boolean isRunning;
+        
 
-	public CommandPanel(Farm farm){
+	public CommandPanel(Farm farm,Inventory inventory, Wild wild){
 		this.farm = farm;
+                this.inventory = inventory;
+                this.wild = wild;
 		commandScanner = new Scanner(System.in);
 	}
+       
+
+ 
 
 	public void run(){
 		isRunning = true;
 		String command;
-
-		System.out.println("Hello Pokemon Game");
+                System.out.println("=======================================");
+		System.out.println("||   Hello Welcome To Pokemon Game   ||");
+                System.out.println("=======================================");
 		while(isRunning){
+                        System.out.println("======================================================================================");
 			System.out.print("\nWhat do you want?  ");
-                        System.out.print("(add, feed, exercise, list, quit, catch) Type:");
+                        System.out.print("(add | feed | exercise | list | quit | catch) Enter HEAR -> : ");
 			command = commandScanner.next();
-                        System.out.println("==========================================");
+                        System.out.println("======================================================================================");
+                        System.out.println("                    ");
 			
 			if(command.equals("quit")){
 				isRunning = false;
@@ -32,8 +43,12 @@ class CommandPanel{
 			}
 			else if(command.equals("add"))
 				this.addPokemon();
-			else if(command.equals("list"))
-				this.listPokemons();
+			else if(command.equals("list")){
+                                this.listPokemons();
+                                System.out.print("\n");
+                                this.listWindPokemon();
+                        }
+				
 			else if(command.equals("feed"))
 				this.feedPokemons();
                         else if(command.equals("exercise"))
@@ -49,46 +64,67 @@ class CommandPanel{
 	}
 
 	private void addPokemon(){
-          
-                System.out.print("Enter (Pikachu,Golbat,Diglett) Type:");
-                String pokemonType;
-                pokemonType = commandScanner.next();
-		String name;
-                System.out.println("Enter Name");
-                name = commandScanner.next();
+    
+                System.out.print("Enter (Pikachu,Zubat,Diglett) Type: ");
+                String pokemonType = commandScanner.next();
                 
+            if(pokemonType.equals("Zubat")||pokemonType.equals("Pikachu")||pokemonType.equals("Diglett")){
+                   
+                System.out.print("Enter Name : ");
+                String name = commandScanner.next();     
 		float weight = 10f;
 		float stepLength = 5f;
 
 		if(pokemonType.equals("Pikachu")){
 			Pikachu pika = new Pikachu(name, weight, stepLength);
 			farm.addPokemon(pika);
+                        System.out.println("Success !!");
+                        System.out.println("==========================================");
 		}
                 
                 else if(pokemonType.equals("Zubat")){
 			Zubat bat = new Zubat(name, weight, stepLength);
 			farm.addPokemon(bat);
+                        System.out.println("Success !!");
+                        System.out.println("==========================================");
 		}
                 
                 else if(pokemonType.equals("Diglett")){
 			Diglett dig = new Diglett(name, weight, stepLength);
 			farm.addPokemon(dig);
+                        System.out.println("Success !!");
+                        System.out.println("==========================================");
 		}
                 else{
                         System.out.println("I don't understand Please try again");
                         System.out.println("==========================================");  
                 }
-                
-                
+            }
+            
+            else{
+                System.out.println("No Pokemon Type  TRY AGAIN");
+                System.out.print("\n");
+                this.addPokemon();
+            }
+            
+          
 	}
 
 	private void listPokemons(){
 		System.out.println("==========================================");
-		System.out.println("Pokemon List");
+		System.out.println("Farm Pokemon List");
 		System.out.println("==========================================");
 		this.farm.list();
 		System.out.println("==========================================");
 	}
+        
+        private void listWindPokemon(){
+                System.out.println("==========================================");
+		System.out.println("Wind Pokemon List");
+		System.out.println("==========================================");
+		this.inventory.windList();
+		System.out.println("==========================================");
+        }
 
 	private void feedPokemons(){
 		System.out.print("Which pokemon do you want to feed? ");
@@ -106,49 +142,9 @@ class CommandPanel{
         }
         
         private void catchPokemons(){
-            
-                double oppo = 0;
-                System.out.println("Choose your Pokemon. (PokeBall | GreatBall | UltraBall) ");
-                String type = commandScanner.next();
-                    if(type.equals("PokeBall")){
-                        oppo=0.8;              
-                    }
-                    else if(type.equals("GreatBall")){
-                        oppo=0.9;
-                    }
-                    else if(type.equals("UltraBall")){
-                        oppo=1.0;                
-                    }
-                
-                double c = oppo;
-                Ball ball = new Ball(oppo);
-                
-                System.out.println("We found Pokemon !!  'CATCH IT !' ");
-                Random random = new Random();
-                int randomInt = random.nextInt(3);
-                
-                    if(randomInt == 0){
-                        System.out.println("found Zubat ");
-                        System.out.println("catch or ignore");
-                        String ans = commandScanner.next();
-                            if(ans.equals("catch")){
-                                double mood = (double)Math.random();
-                                double chance = mood*ball.ForCompare();
-                                if(chance>=0.5)
-                                
-                            }
-                    }
-                    else if(randomInt == 1){
-                        System.out.println("found Pikachu ");
-                    }
-                    else if(randomInt == 2){
-                        System.out.println("found Diglett ");
-                    }
-                
-                
-		
-                
+                this.wild.catchPokemon();
+       
         }
-
 }
+
 
